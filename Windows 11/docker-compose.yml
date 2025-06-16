@@ -1,0 +1,33 @@
+services:
+  scs-windows11:
+    image: dockurr/windows
+    container_name: scs-windows11
+    environment:
+      VERSION: "11"
+      DISK_SIZE: "8192G"
+      RAM_SIZE: "14G"
+      CPU_CORES: "12"
+      USERNAME: "CloudSystem-Windows11"
+      PASSWORD: ""
+    devices:
+      - /dev/kvm
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 8006:8006
+      - 3389:3389/tcp
+      - 3389:3389/udp
+    volumes:
+      - ./windows:/storage
+    restart: always
+    stop_grace_period: 2m
+
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: ngrok
+    depends_on:
+      - scs-windows11
+    environment:
+      NGROK_AUTHTOKEN: "2PlrOuMx9UyN0JkA6Id0OLrKaxY_7qwrc57tivuRQuPs5B57W"
+    command: tcp 3389

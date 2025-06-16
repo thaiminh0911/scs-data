@@ -1,0 +1,30 @@
+services:
+  scs-macos15:
+    image: dockurr/macos
+    container_name: scs-macos15
+    environment:
+      VERSION: "15"
+      DISK_SIZE: "8192G"
+      RAM_SIZE: "14G"
+      CPU_CORES: "12"
+    devices:
+      - /dev/kvm
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 8006:8006
+      - 5900:5900/tcp
+      - 5900:5900/udp
+    volumes:
+      - ./macos:/storage
+    restart: always
+    stop_grace_period: 2m
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: ngrok
+    depends_on:
+      - scs-macos15
+    environment:
+      NGROK_AUTHTOKEN: "2PlrOuMx9UyN0JkA6Id0OLrKaxY_7qwrc57tivuRQuPs5B57W"
+    command: tcp 5900
