@@ -8,7 +8,7 @@ services:
       RAM_SIZE: "14G"
       CPU_CORES: "12"
       USERNAME: "CloudSystem-Windows11"
-      PASSWORD: ""
+      PASSWORD: "12345678"
     devices:
       - /dev/kvm
       - /dev/net/tun
